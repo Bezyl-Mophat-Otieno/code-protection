@@ -1,0 +1,23 @@
+name: Tests
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy my github code
+        uses: actions/checkout@v2
+      - name: Set up node version 18
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18.x"
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Tests
+        run: npm run test
+      - name: Store the generated documents in as github artfacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test Reports
+          path: ./test-report
