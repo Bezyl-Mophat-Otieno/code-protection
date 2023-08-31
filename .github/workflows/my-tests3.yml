@@ -1,0 +1,23 @@
+name : Scheduled E2E tests
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name : Checkout My Github Repo
+              uses: actions/checkout@v2
+            - name : set up node 
+              uses : actions/setup-node@v2
+              with :
+                    node-version : '18.x'
+            - name : Install Dependencies
+              run : npm install     
+            - name : Run The E2E Tests
+              run : npx cypress run --reporter mochawesome
+            - name : Upload The Report from mochawsome
+              uses : actions/upload-artifact@v2
+              with : 
+                name : Mochawesome Report
+                path : ./reports/mochawesome-report
